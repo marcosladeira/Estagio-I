@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h1 align="center">Cadastro de Perfil</h1>        
+            <h:form>
+            <p:growl />
+                <p:panelGrid columns="2">                
+                    Nome:*<p:inputText value="#{perfilControle.per.nome}" 
+                                      required="true"
+                                      requiredMessage="O nome é obrigatório!"
+                                      size="28"
+                                      id="nome"/>
+                </p:panelGrid>                
+                <p:panel header="Permissões">
+                    <p:panelGrid columns="3">
+                        Permissão:<p:selectOneMenu value="#{perfilControle.permissoes.nome}">
+                            <f:selectItem itemLabel="Estado" itemValue="ESTADO"/>
+                            <f:selectItem itemLabel="Cidade" itemValue="CIDADE"/>
+                            <f:selectItem itemLabel="Cliente" itemValue="CLIENTE"/>
+                            <f:selectItem itemLabel="Funcionário" itemValue="FUNCIONARIO"/>
+                            <f:selectItem itemLabel="Função" itemValue="FUNCAO"/>
+                            <f:selectItem itemLabel="Fornecedor" itemValue="FORNECEDOR"/>
+                            <f:selectItem itemLabel="Grupo de Produto" itemValue="GRUPOPRODUTO"/>
+                            <f:selectItem itemLabel="Produto" itemValue="PRODUTO"/>
+                            <f:selectItem itemLabel="Serviço" itemValue="SERVICO"/>
+                            <f:selectItem itemLabel="Usuário" itemValue="USUARIO"/>               
+                            <f:selectItem itemLabel="Perfil" itemValue="PERFIL"/>
+                            <f:selectItem itemLabel="Compra" itemValue="COMPRA"/>         
+                            <f:selectItem itemLabel="Ordem de Serviço" itemValue="ORDEMSERVICO"/>
+                            <f:selectItem itemLabel="Contas a Pagar" itemValue="CONTASPAGAR"/>
+                            <f:selectItem itemLabel="Contas a Receber" itemValue="CONTASRECEBER"/>
+                            <f:selectItem itemLabel="Caixa" itemValue="CAIXA"/>
+                            <f:selectItem itemLabel="Agenda" itemValue="AGENDA"/>
+                            <f:selectItem itemLabel="Estados" itemValue="RELATORIOESTADO"/>
+                            <f:selectItem itemLabel="Cidades" itemValue="RELATORIOCIDADE"/>
+                            <f:selectItem itemLabel="Clientes" itemValue="RELATORIOCLIENTE"/>
+                            <f:selectItem itemLabel="Funcionários" itemValue="RELATORIOFUNCIONARIO"/>
+                            <f:selectItem itemLabel="Funções" itemValue="RELATORIOFUNCAO"/>
+                            <f:selectItem itemLabel="Fornecedores" itemValue="RELATORIOFORNECEDOR"/>
+                            <f:selectItem itemLabel="Grupo de Produto" itemValue="RELATORIOGRUPOPRODUTO"/>
+                            <f:selectItem itemLabel="Produtos" itemValue="RELATORIOPRODUTO"/>
+                            <f:selectItem itemLabel="Serviços" itemValue="RELATORIOSERVICO"/>
+                            <f:selectItem itemLabel="Usuário" itemValue="RELATORIOUSUARIO"/>
+                            <f:selectItem itemLabel="Perfis" itemValue="RELATORIOPERFIL"/>
+                            <f:selectItem itemLabel="Fidelidade de Clientes" itemValue="RELATORIOFIDELIDADECLIENTE"/>
+                            <f:selectItem itemLabel="Serviços mais realizados" itemValue="RELATORIOSERVICOMAISREALIZADO"/>
+                            <f:selectItem itemLabel="Produtos mais vendidos" itemValue="RELATORIOPRODUTOMAISVENDIDO"/>]
+                            <f:selectItem itemLabel="Serviços menos realizados" itemValue="RELATORIOSERVICOMENOSREALIZADO"/>
+                            <f:selectItem itemLabel="Produtos mais comprados" itemValue="RELATORIOPRODUTOMAISCOMPRADO"/>
+                        </p:selectOneMenu>
+                        <p:commandButton value="Adicionar" ajax="false" action="perfiledita" actionListener="#{perfilControle.adicionar()}"/>                        
+                    </p:panelGrid>
+                    <p:dataTable value="#{perfilControle.per.permissoes}" var="p">
+                        <p:column headerText="Nome">
+                            #{p.nome}
+                        </p:column>
+                    </p:dataTable>
+
+                </p:panel>
+
+                <p:commandButton value="Salvar" 
+                                 actionListener="#{perfilControle.salvar()}"
+                                 action="perfillista"
+                                 ajax="false" />
+                <p:commandButton value="Voltar" 
+                                 action="perfillista"
+                                 immediate="true"
+                                 ajax="false" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

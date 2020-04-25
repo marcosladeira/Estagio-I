@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"          
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h3 align="center">Cadastro de Cliente</h3>
+            <h:form>
+           <p:growl />
+
+                <table>
+                    <tr><td align="center" width="1450"> 
+                            <p:selectOneRadio  value="#{clienteControle.tipoPessoa}"  layout="grid" columns="2">
+                                <f:selectItem itemLabel="Pessoa Fisica" itemValue="PessoaFisica"/> 
+                                <f:selectItem itemLabel="Pessoa Juridica" itemValue="PessoaJuridica"/>
+                                <p:ajax  update="painel"/>
+                            </p:selectOneRadio>    
+                        </td></tr>
+                </table>
+                <br/>
+
+                <p:panelGrid columns="4" id="painel">
+                    Nome:*<p:inputText value="#{clienteControle.cliente.nome}" 
+                                       required="true" 
+                                       requiredMessage="O nome é obrigatório!"
+                                       size="40"/>
+
+                    <p:outputLabel value="CPF:*" rendered="#{clienteControle.isPF()}"/>
+                    <p:inputMask value="#{clienteControle.cliente.cpfCnpj}" 
+                                 mask="999.999.999-99"
+                                 required="true"
+                                 requiredMessage="O CPF é obrigatório !"
+                                 size="15"
+                                 id="cpfCnpj1"
+                                 rendered="#{clienteControle.isPF()}"/>
+                    <p:outputLabel value="CNPJ:*" rendered="#{clienteControle.isPJ()}"/>
+                    <p:inputMask value="#{clienteControle.cliente.cpfCnpj}" 
+                                 mask="99.999.999/9999-99"
+                                 required="true"
+                                 requiredMessage="O CNPJ é obrigatório !"
+                                 size="15"
+                                 id="cpfCnpj2"
+                                 rendered="#{clienteControle.isPJ()}"/>
+                    Telefone:<p:inputMask value="#{clienteControle.cliente.telefone}"
+                                          mask="(99) 9999-9999"
+                                          size="12"
+                                          />    
+
+                    Celular:*<p:inputMask value="#{clienteControle.cliente.celular}"
+                                         mask="(99)9 9999-9999"
+                                         required="true"
+                                         requiredMessage="O número do celular é obrigatório !"
+                                         size="12"
+                                         />
+                    Endereço:*<p:inputText value="#{clienteControle.cliente.endereco}"
+                                          required="true"
+                                          requiredMessage="O endereço é obrigatório !"
+                                          size="34"/>
+                    Número:<p:inputText value="#{clienteControle.cliente.numero}"
+                                        size="8"/>
+                    Bairro:*<p:inputText value="#{clienteControle.cliente.bairro}"
+                                        required="true"
+                                        requiredMessage="O bairro é obrigatório !"
+                                        size="25"/>
+                    Cidade:* <p:autoComplete value="#{clienteControle.cliente.cidade}"
+                                           completeMethod="#{clienteControle.listaFiltrando}"
+                                           var="cidade"
+                                           required="true"
+                                           requiredMessage="A cidade é obrigatória !"
+                                           itemLabel="#{cidade.nome}"
+                                           itemValue="#{cidade}"
+                                           forceSelection="true"
+                                           converter="#{clienteControle.converterCidade}"
+                                           size="25"/>
+                </p:panelGrid> 
+                <p:panelGrid class="2">
+                    <p:commandButton value="Salvar" actionListener="#{clienteControle.salvar()}" action="clientelista" ajax="false"/>
+                    <p:commandButton value="Voltar" action="clientelista" immediate="true" ajax="false"/>
+                </p:panelGrid>            
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

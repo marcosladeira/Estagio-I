@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"          
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h:form>
+                <p:panel header="Movimento de Caixa">
+                  
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="dataAbertura" value="Data Abertura"/>
+                        <p:calendar id="dataAbertura" value="#{caixaControle.caixa.dataAbertura}"/>
+                        
+                        <p:outputLabel for="valorAbertura" value="Valor Abertura"/>
+                        <p:inputText id="valorAbertura" value="#{caixaControle.caixa.valorAbertura}"
+                                     converter="#{caixaControle.moneyConverter}"/>
+                        
+                        <p:commandButton value="Salvar" actionListener="#{caixaControle.salvar()}"
+                                         ajax="false" action="caixalista"
+                                         style="background-color: #b0e7b2"/>
+                        <p:commandButton value="Cancelar" action="caixalista" 
+                                         ajax="false" immediate="true"
+                                         style="background-color: #DC143C"/>
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+  
+</html>

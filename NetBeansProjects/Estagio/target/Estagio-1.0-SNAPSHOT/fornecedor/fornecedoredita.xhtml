@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            
+            <h1>Cadastro de Fornecedor</h1>
+            <br/>
+            <h:form>
+                <p:growl />
+                <p:panelGrid columns="2">
+                    Nome:*<p:inputText value="#{fornecedorControle.fornecedor.nome}" 
+                                      size="40"
+                                      required="true" 
+                                      requiredMessage="O Nome é obrigatório!"
+                                      id="nome"/>
+                     
+                    CNPJ:*<p:inputMask value="#{fornecedorControle.fornecedor.cnpj}"
+                                      mask="99.999.999/9999-99"
+                                      size="15"
+                                      required="true" 
+                                      requiredMessage="O CNPJ é obrigatório!"
+                                      id="cnpj"/>
+                    
+                    IE:*<p:inputText value="#{fornecedorControle.fornecedor.ie}" 
+                                      size="18"
+                                      required="true" 
+                                      requiredMessage="A inscrição estadual é obrigatória!"
+                                      id="ie"/>
+                    Telefone:*<p:inputMask value="#{fornecedorControle.fornecedor.telefone}"
+                                          mask="(99) 9999-9999"
+                                          required="true"
+                                          requiredMessage="O número do telefone é obrigatório !"
+                                          size="12"
+                                          />
+                    Endereço:*<p:inputText value="#{fornecedorControle.fornecedor.endereco}" 
+                                      size="34"
+                                      required="true" 
+                                      requiredMessage="O Endereço é obrigatório!"
+                                      id="endereco"/>
+                    
+                    Número:<p:inputText value="#{fornecedorControle.fornecedor.numero}" 
+                                      size="8"
+                                      id="numero"/>
+                    
+                    Bairro:*<p:inputText value="#{fornecedorControle.fornecedor.bairro}" 
+                                      size="25"
+                                      required="true" 
+                                      requiredMessage="O bairro é obrigatório!"
+                                      id="bairro"/>
+                    
+                    Cidade:*<p:autoComplete value="#{fornecedorControle.fornecedor.cidade}"
+                                           completeMethod="#{fornecedorControle.listaFiltrando}"
+                                           var="fornecedor"
+                                           required="true"
+                                           requiredMessage="A cidade é obrigatória !"
+                                           itemLabel="#{fornecedor.nome}"
+                                           itemValue="#{fornecedor}"
+                                           forceSelection="true"
+                                           converter="#{fornecedorControle.converterCidade}"
+                                           size="25"/>
+               
+                
+                </p:panelGrid>
+                <p:commandButton value="Salvar" actionListener="#{fornecedorControle.salvar()}"
+                                 action="fornecedorlista"
+                                 ajax="false"/>
+                <p:commandButton value="Voltar"
+                                 action="fornecedorlista"
+                                 immediate="true"
+                                 ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

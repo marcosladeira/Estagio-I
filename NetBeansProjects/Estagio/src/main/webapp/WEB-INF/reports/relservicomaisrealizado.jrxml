@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relservicomaisrealizado" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55c3a466-d35c-4a7e-820d-1b75423ac801">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataInicial" class="java.util.Date"/>
+	<parameter name="dataFinal" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select s.nome as servico, count (its.id) as quant from servico s
+inner join itensservico its
+on s.id=its.servico_id
+inner join ordemservico os on its.ordemservico_id= os.id
+where dataordemservico
+BETWEEN $P{dataInicial}
+and $P{dataFinal}
+group by (s.nome)
+order by quant desc]]>
+	</queryString>
+	<field name="servico" class="java.lang.String"/>
+	<field name="quant" class="java.lang.Long"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#FF0F00" uuid="7e53e6a8-c9e6-42c2-97b0-6775ebf5db4a"/>
+				<staticText>
+					<reportElement x="53" y="20" width="482" height="43" forecolor="#FFFFFF" uuid="7c171852-4763-417e-a058-5f8c026188f9"/>
+					<textElement textAlignment="Center">
+						<font size="84" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Serviços mais realizados]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="e50f4381-93e6-4c38-adf0-3ed392f3bdba"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="414" height="20" forecolor="#010101" backcolor="#E6E6E6" uuid="6bacd030-3735-4d4c-931c-3d39e3abe969"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[      Serviço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="414" y="0" width="140" height="20" forecolor="#010101" backcolor="#E6E6E6" uuid="5b18228d-770c-4a73-836c-3135bd208c76"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="15d56d6b-6868-4d56-b946-1ee646c19f76"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="414" height="20" uuid="13a0082d-d433-4e7a-8176-da4ac9f2930a"/>
+				<textElement textAlignment="Left">
+					<font size="14" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servico}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="414" y="0" width="140" height="20" uuid="31810b0d-3001-4a3f-8ebe-f1b56a96b96f"/>
+				<textElement textAlignment="Center">
+					<font size="14" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quant}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="8c825044-7996-45bc-b867-4517c696781b"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="58854ea9-5b81-45f9-945a-785beb2a197c"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="60c880df-8aad-4b42-ab88-869ffd503788"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

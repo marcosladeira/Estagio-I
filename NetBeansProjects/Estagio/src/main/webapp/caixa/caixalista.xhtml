@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"          
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h:form id="formularioCaixa">
+                <p:panel header="Movimento de Caixa">
+                   
+
+                    <p:dataTable value="#{caixaControle.listaCaixa()}"
+                                 var="c" paginator="true" rows="10">
+
+                        
+                        <p:column headerText="Data Abertura" filterBy="#{c.dataAbertura}" filterMatchMode="contains">
+                            <p:outputLabel value="#{c.dataAbertura}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>   
+                            </p:outputLabel>
+                        </p:column>
+
+                        <p:column headerText="Data Fechamento" filterBy="#{c.dataFechamento}" filterMatchMode="contains">
+                            <p:outputLabel value="#{c.dataFechamento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>
+                        </p:column>
+                        
+                        <p:column headerText="Valor de Abertura" filterBy="#{c.valorAbertura}" filterMatchMode="contains">
+                            #{c.valorAbertura}
+                        </p:column>
+                        
+                        <p:column headerText="Valor de Fechamento" filterBy="#{c.valorFechamento}" filterMatchMode="contains">
+                            #{c.valorFechamento}
+                        </p:column>
+                        
+                        <p:column headerText="Status">
+                            #{c.statusCaixa}
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:commandButton icon="fa fa-unlock" value="Abrir Caixa" actionListener="#{caixaControle.novo()}"
+                                     action="caixaedita" ajax="false" disabled="#{caixaControle.desabilitarBotaoAbrir}"/>
+
+                    <p:commandButton icon="fa fa-lock" value="Fechar Caixa" action="#{caixaControle.fecharCaixa()}" ajax="false" 
+                                     disabled="#{caixaControle.desabilitarBotaoFechar}"/>
+                </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

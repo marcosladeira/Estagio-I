@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relprodutomaiscomprado" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d72705b2-ccff-4d4f-8049-f242d2cfff3a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dataInicial" class="java.util.Date"/>
+	<parameter name="dataFinal" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[select p.nome as produto, sum(ic.quantidade) as quantidade from produto p
+inner join itenscompra ic on p.id = ic.produto_id
+inner join compra co on ic.compra_id = co.id
+where
+co.datacompra BETWEEN $P{dataInicial}
+and $P{dataFinal}
+group by p.nome
+order by sum(ic.quantidade) desc]]>
+	</queryString>
+	<field name="produto" class="java.lang.String"/>
+	<field name="quantidade" class="java.lang.Double"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#FF0F00" uuid="ff5d11eb-0ace-4d12-adbf-d5505df20a97"/>
+				<staticText>
+					<reportElement x="46" y="20" width="515" height="43" forecolor="#FFFFFF" uuid="cc9ec0cb-15b7-43ea-8524-410c6140b583"/>
+					<textElement>
+						<font size="84" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Produtos mais comprados]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="a25d09c8-d074-4149-9db0-48de1765206f"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="441" height="20" forecolor="#010101" backcolor="#E6E6E6" uuid="7539a8ff-f658-4f2f-bac7-a9113677e3db"/>
+				<textElement textAlignment="Left">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[      Produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="441" y="0" width="113" height="20" forecolor="#010101" backcolor="#E6E6E6" uuid="6613c9a0-7432-48cd-a4ba-86594f940ceb"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="63aa58a0-0f73-43bd-9e6b-af3f750e00b9"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="441" height="20" uuid="8053b780-f5dd-46f5-b293-7b023b7d19c9"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{produto}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="441" y="0" width="113" height="20" uuid="8fb0f945-b949-4e66-a07b-8e30cfa5540b"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="1145d7d5-0952-4886-a695-5b418f85b83d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="f9b97028-674b-433f-b89f-ec206d0294e2"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="28371aab-ae1c-48e8-b7f6-c1808b265265"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relFuncionario" pageWidth="670" pageHeight="842" columnWidth="630" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f365cbb2-b85c-44e4-9eb8-04ca56365a6e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     pessoa."id" AS pessoa_id,
+     pessoa."nome" AS pessoa_nome,
+     pessoa."ctps" AS pessoa_ctps,
+     pessoa."dataadmissao" AS pessoa_dataadmissao,
+     pessoa."salario" AS pessoa_salario,
+     funcao."nome" AS funcao_nome
+FROM
+"public"."funcao" funcao INNER JOIN "public"."pessoa" pessoa ON funcao."id" = pessoa."funcao_id"]]>
+	</queryString>
+	<field name="pessoa_id" class="java.lang.Long"/>
+	<field name="pessoa_nome" class="java.lang.String"/>
+	<field name="pessoa_ctps" class="java.lang.String"/>
+	<field name="pessoa_dataadmissao" class="java.sql.Date"/>
+	<field name="pessoa_salario" class="java.lang.Double"/>
+	<field name="funcao_nome" class="java.lang.String"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="670" height="92" backcolor="#006699" uuid="b07467c7-c88a-48f5-8b3b-0aa1934bff70"/>
+				<staticText>
+					<reportElement x="47" y="20" width="499" height="43" forecolor="#FFFFFF" uuid="57ad5356-493d-419a-bd09-950699725cd0"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Relatório de Funcionários]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="a121fc08-8073-4d70-8240-908d3c5dc034"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="92" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="85ed36d0-0554-4273-8575-b719ff65f44f"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="92" y="0" width="92" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="3279766f-2251-456c-bfb0-849fad3b7100"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="184" y="0" width="92" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="0bb0d029-a477-4276-9667-162ecf4a54c3"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CTPS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="276" y="0" width="170" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="269f76cb-d4c5-4c59-8cc9-7be583664a06"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Admissão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="446" y="0" width="92" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="5d29b098-d080-461a-8b85-e6f403ce413f"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Salário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="538" y="0" width="92" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="43921024-90ea-4602-9710-fa59208c7933"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Função]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="dda04647-fa4b-43ce-807e-59b6e23c05b3"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="92" height="20" uuid="1cff928f-2286-41dc-b375-57c4fae77895"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pessoa_id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="92" y="0" width="92" height="20" uuid="39e7cd00-6dd3-4d80-bf5b-2af0bcb15243"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pessoa_nome}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="184" y="0" width="92" height="20" uuid="60351689-3e9b-4731-b3a7-988f40d85f41"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pessoa_ctps}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement x="276" y="0" width="170" height="20" uuid="798d68f6-8f53-4322-add1-ed590ba70f78"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pessoa_dataadmissao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="446" y="0" width="92" height="20" uuid="655da1fe-a00e-4810-b564-48ebb63b1898"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pessoa_salario}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="538" y="0" width="92" height="20" uuid="46a13134-3222-4eb1-8d9e-48b13bf52e2e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funcao_nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="561764d7-e044-4b04-91c0-316cadbd17f6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="a0347838-75c8-4d78-b794-46c055089826"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="08d29491-3dbe-4c0f-b99c-74bc9cde7ce4"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"          
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <h:outputScript library="js" name="/mascaraMonetaria/Parsers.js" />
+        <h:outputScript library="js" name="/mascaraMonetaria/JavaScriptUtil.js" />
+        <h:outputScript library="js" name="/mascaraMonetaria/InputMask.js" />   
+        <script language="JavaScript">
+            function mascaraMonetaria(arg) {
+                //Set up the NumberMasks
+                var separadorDecimal = ",";
+                var separadorMilhar = ".";
+
+                var formato = new NumberParser(2, separadorDecimal, separadorMilhar, true);
+                formato.currencySymbol = "R$";
+                formato.useCurrency = true;
+                formato.allowNegative = false;
+                formato.currencyInside = true;
+
+                if (arg.className.indexOf('mascaraMonetaria') === -1) {
+                    var mascaraMonetariaFinal = new NumberMask(formato, arg, 20);
+                    mascaraMonetariaFinal.leftToRight = true;
+                    arg.setAttribute('autocomplete', 'off');
+                    arg.className += ' mascaraMonetaria';
+                }
+            }
+        </script> 
+        <title>FG Cabeleireiros</title>
+    </h:head>
+    <h:body>
+            <p:layoutUnit position="north" size="110">
+                <table>
+                    <tr>
+                        <td>
+                            <div align="center">
+
+                            </div>
+                        </td>
+                        <td align="center" width="800">
+                            <p:outputLabel value="FG Cabeleireiros" style="font-size: 30px; padding-left: 60%"/>
+                        </td>
+                        <td align="right" width="800">
+
+                        </td>
+                    </tr>
+                </table>    
+            </p:layoutUnit>
+          
+            <p:layoutUnit position="west" size="180" >
+                <h:form>
+                    <p:menubar>
+                        <p:submenu label="Cadastros" rendered="true" >                                                                                  
+                            <p:menuitem value="Estado" action="/estado/estadolista" ajax="false"/>   
+                            <p:menuitem value="Cidade" action="/cidade/cidadelista" ajax="false"/>
+                            <p:menuitem value="Cliente" action="/cliente/clientelista" ajax="false"/> 
+                            <p:menuitem value="Funcionário" action="/funcionario/funcionariolista" ajax="false"/>  
+                            <p:menuitem value="Função" action="/funcao/funcaolista" ajax="false"/>  
+                            <p:menuitem value="Fornecedor" action="/fornecedor/fornecedorlista" ajax="false"/>
+                            <p:menuitem value="Grupo de Produto" action="/grupoproduto/grupoprodutolista" ajax="false"/>
+                            <p:menuitem value="Produto" action="/produto/produtolista" ajax="false"/>
+                            <p:menuitem value="Serviço" action="/servico/servicolista" ajax="false"/>             
+                            <p:menuitem value="Usuário" action="/usuario/usuariolista" ajax="false"/>
+                            <p:menuitem value="Perfil" action="/perfil/perfillista" ajax="false"/>
+
+                        </p:submenu>
+                        <p:submenu label="Movimentos" rendered="true" >
+                            <p:menuitem  value="Compra" action="/compra/compralista" ajax="false"/>
+                            <p:menuitem  value="Ordem de Serviço" action="/ordemservico/ordemservicolista" ajax="false"/>
+                            <p:menuitem  value="Contas a Pagar" action="/contaspagar/contaspagarlista" ajax="false"/>
+                            <p:menuitem  value="Contas a Receber" action="/contasreceber/contasreceberlista" ajax="false"/>
+                            <p:menuitem  value="Caixa" action="/caixa/caixalista" ajax="false"/>
+                           <p:menuitem  value="Agenda" action="/agenda/agendalista" ajax="false"/>
+                        </p:submenu>
+                       <p:submenu label="Relatórios">
+                        <p:submenu label="Relatórios Cadastrais" rendered="true" > 
+                            <p:menuitem  value="Estados" ajax="false" action="/relatorios/relestado"/>                            
+                            <p:menuitem value="Cidades" ajax="false" action="/relatorios/relcidade"/>
+                            <p:menuitem  value="Clientes" ajax="false" action="/relatorios/relcliente"/>
+                            <p:menuitem  value="Funcionários" ajax="false" action="/relatorios/relfuncionario"/>
+                            <p:menuitem value="Funções" ajax="false" action="/relatorios/relfuncao"/> 
+                            <p:menuitem  value="Fornecedores" ajax="false" action="/relatorios/relfornecedor"/>
+                            <p:menuitem  value="Grupo de Produto" ajax="false" action="/relatorios/relgrupoproduto"/> 
+                            <p:menuitem  value="Produtos" ajax="false" action="/relatorios/relproduto"/>
+                            <p:menuitem  value="Serviços" ajax="false" action="/relatorios/relservico"/>
+                            <p:menuitem value="Usuário" ajax="false" action="/relatorios/relusuario"/> 
+                            <p:menuitem value="Perfil" ajax="false" action="/relatorios/relperfil"/> 
+                        </p:submenu>
+                        <p:submenu label="Relatórios Gerenciais" rendered="true" >
+                            <p:menuitem  value="Fidelidade de Clientes" ajax="false" action="/relatorios/relfidelidadecliente"/>
+                            <p:menuitem  value="Serviços mais realizados" ajax="false" action="/relatorios/relservicomaisrealizado"/>
+                            <p:menuitem  value="Produtos mais vendidos" ajax="false" action="/relatorios/relprodutomaisvendido"/>
+                            <p:menuitem  value="Serviços menos realizados" ajax="false" action="/relatorios/relservicomenosrealizado"/>    
+                            <p:menuitem value="Produtos mais comprados" ajax="false" action="/relatorios/relprodutomaiscomprado"/>
+                        </p:submenu>
+                </p:submenu>
+                           <p:menuitem value="Sair" action="#{loginControle.logoff()}" icon="ui-icon-power" ajax="false"/>
+                      </p:menubar>
+               <p:panel>
+        <ui:insert name="conteudo"/>
+        <f:facet name="footer">
+            <h:outputLabel value="Usuário: #{loginControle.usuario.login}" />
+        </f:facet>
+        </p:panel>
+                </h:form>   
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+                <ui:insert id="corpo" name="body">
+
+                </ui:insert>
+            </p:layoutUnit>
+                
+    </h:body>
+ 
+</html>

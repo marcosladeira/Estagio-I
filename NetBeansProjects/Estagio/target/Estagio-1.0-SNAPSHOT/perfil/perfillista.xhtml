@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h1 align="center">Cadastro de Perfils</h1>        
+            <h:form>                
+                <p:dataTable value="#{perfilControle.lista}" var="obj"
+                             paginator="true" rows="5" 
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="2,5,10,15"
+                             >
+                    <p:column headerText="Código" filterBy="#{obj.id}" filterMatchMode="contains">
+                        <h:outputText value="#{obj.id}"/>
+                    </p:column>
+                    <p:column headerText="Nome" filterBy="#{obj.nome}" filterMatchMode="contains">
+                        <h:outputText value="#{obj.nome}"/>
+                    </p:column>
+                    <p:column headerText="Operações" width="90">
+                        <p:commandButton icon="ui-icon-closethick" 
+                                         ajax="false" 
+                                         immediate="true" 
+                                         action="perfillista.xhtml"
+                                         actionListener="#{perfilControle.excluir(obj)}"/>
+                        <p:commandButton icon="ui-icon-pencil" 
+                                         ajax="false"
+                                         immediate="true"
+                                         action="perfiledita.xhtml"
+                                         actionListener="#{perfilControle.editar(obj)}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Novo perfil" action="perfiledita"
+                                 actionListener="#{perfilControle.novo()}" ajax="false"/>
+                <p:commandButton value="Voltar" immediate="true" action="/index.xhtml" ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

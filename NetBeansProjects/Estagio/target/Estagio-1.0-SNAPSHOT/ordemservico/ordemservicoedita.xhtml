@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"          
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h1 align="center">Movimento de Ordem de Serviço</h1>        
+                <h:form>
+                    <p:growl />
+                   
+                    <p:panelGrid columns="2">
+                 
+                        Data da Ordem de Serviço:*<p:calendar value="#{ordemServicoControle.os.dataOrdemServico}" 
+                                                  pattern="dd/MM/yyyy"
+                                                  locale="pt_BR"
+                                                  required="true"
+                                                  requiredMessage="O campo Data Inicial é obrigatório"
+                                                  size="10"/>
+
+                        Cliente:*<p:autoComplete value="#{ordemServicoControle.os.cliente}"
+                                                completeMethod="#{ordemServicoControle.getListaClientesFiltrando}"
+                                            var="cliente"
+                                            itemLabel="#{cliente.nome}"
+                                            required="true"
+                                            requiredMessage="O nome do cliente é obrigatório"
+                                            itemValue="#{cliente}"
+                                            converter="#{ordemServicoControle.clienteConverter}"
+                                            forceSelection="true"
+                                            size="40"
+                                            />
+                    <p:outputLabel value="Total:" style="color: tomato; font-size: larger"/>
+                    <p:outputLabel value="#{ordemServicoControle.os.valorTotal}" 
+                                   style="color: tomato; font-size: larger"
+                                   converter="#{ordemServicoControle.moneyConverter}"/>
+                </p:panelGrid>                
+                <p:panel header="Itens Serviço">                    
+                    <p:panelGrid columns="2">
+                        Serviço:<p:autoComplete value="#{ordemServicoControle.itensServico.servico}"
+                                                completeMethod="#{ordemServicoControle.getListaServicosFiltrando}"
+                                                var="s"
+                                                itemLabel="#{s.nome}"
+                                                itemValue="#{s}"
+                                                converter="#{ordemServicoControle.servicoConverter}"
+                                                forceSelection="true"
+                                                size="34"                                            
+                                                >
+                            <p:ajax listener="#{ordemServicoControle.atualizaPrecoServico()}" update="itemprecoservico" event="itemSelect"/>
+                        </p:autoComplete>
+
+                        Preço:<p:outputLabel value="#{ordemServicoControle.itensServico.preco}"
+                                           id="itemprecoservico"
+                                           converter="#{ordemServicoControle.moneyConverter}"
+                                           onkeydown="mascaraMonetaria(this)"
+                                            />
+       
+                    </p:panelGrid>
+                    <p:commandButton value="Adicionar Serviço" ajax="false"
+                                     actionListener="#{ordemServicoControle.addServico()}"/>  
+
+                    <p:dataTable emptyMessage="Nenhum serviço adicionado!"
+                                 value="#{ordemServicoControle.os.itensServico}"
+                                 var="it">
+                        <p:column headerText="Serviço">
+                            <p:outputLabel value="#{it.servico.nome}"/>
+                        </p:column>
+                        <p:column headerText="Preço">
+                            <p:outputLabel value="#{it.preco}" converter="#{ordemServicoControle.moneyConverter}"/>
+                        </p:column>
+     
+                        <p:column headerText="Operações" width="90">
+                        <p:commandButton icon="ui-icon-closethick" 
+                                         ajax="false" 
+                                         immediate="true" 
+                                         actionListener="#{ordemServicoControle.removeServico(it)}"/>
+                    </p:column>
+                    </p:dataTable>                    
+                </p:panel>
+
+                    <br/><br/>          
+                <p:panel header="Itens da Venda">                    
+                    <p:panelGrid columns="2">
+                        Produto:<p:autoComplete value="#{ordemServicoControle.itensVenda.produto}"
+                                                completeMethod="#{ordemServicoControle.getListaProdutosFiltrando}"
+                                                var="prod"
+                                                itemLabel="#{prod.nome}"
+                                                itemValue="#{prod}"
+                                                converter="#{ordemServicoControle.produtoConverter}"
+                                                forceSelection="true"
+                                                size="34"                                            
+                                                >
+                            <p:ajax listener="#{ordemServicoControle.atualizaPrecoProduto()}" update="itemprecovenda" event="itemSelect"/>
+                        </p:autoComplete>
+
+                        Preço:<p:outputLabel value="#{ordemServicoControle.itensVenda.preco}"
+                                           id="itemprecovenda"
+                                           converter="#{ordemServicoControle.moneyConverter}"
+                                           onkeydown="mascaraMonetaria(this)"
+                                           />
+                        Quantidade:<p:inputText value="#{ordemServicoControle.itensVenda.quantidade}" 
+                                                id="quantidade"
+                                                size="7"
+                                                />
+                    </p:panelGrid>
+                    <p:commandButton value="Adicionar Produto" ajax="false"
+                                     actionListener="#{ordemServicoControle.addProduto()}"/>  
+
+                    <p:dataTable emptyMessage="Nenhum produto adicionado!"
+                                 value="#{ordemServicoControle.os.itensVenda}"
+                                 var="it">
+                        <p:column headerText="Produto">
+                            <p:outputLabel value="#{it.produto.nome}"/>
+                        </p:column>
+                        <p:column headerText="Preço">
+                            <p:outputLabel value="#{it.preco}" converter="#{ordemServicoControle.moneyConverter}"/>
+                        </p:column>
+                        <p:column headerText="Quantidade">
+                            <p:outputLabel value="#{it.quantidade}"/>
+                        </p:column>
+                        <p:column headerText="SubTotal">
+                            <p:outputLabel value="#{it.subTotal}" converter="#{ordemServicoControle.moneyConverter}"/>
+                        </p:column>
+                        <p:column headerText="Operações" width="90">
+                        <p:commandButton icon="ui-icon-closethick" 
+                                         ajax="false" 
+                                         immediate="true" 
+                                         actionListener="#{ordemServicoControle.removeProd(it)}"/>
+                    </p:column>
+                    </p:dataTable>                    
+                </p:panel>
+
+                    <br/><br/>
+
+                    <p:panel header="Forma de Pagamento">
+                    <p:panelGrid columns="3">
+                        Número de parcelas:* <p:inputText value="#{ordemServicoControle.numeroParcelas}" size="5"
+                                                         required="true"
+                                                         requiredMessage="O número de parcelas é obrigatório !"/>
+                        <p:commandButton value="Gerar" actionListener="#{ordemServicoControle.gerarParcelas()}" ajax="false"/>                        
+                    </p:panelGrid>
+                        <p:dataTable value="#{ordemServicoControle.os.contasReceber}"
+                                 var="cr">                        
+                        <p:column headerText="Parcela">
+                            <p:outputLabel value="#{cr.numParcelas}"/>
+                        </p:column>
+                        <p:column headerText="Vencimento">
+                            <p:outputLabel value="#{cr.dataVencimento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Valor">
+                            <p:outputLabel value="#{cr.valor}"
+                                           converter="#{ordemServicoControle.moneyConverter}"
+                                           onkeydown="mascaraMonetaria(this)"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                
+                
+                <p:commandButton value="Salvar" 
+                                 actionListener="#{ordemServicoControle.salvar()}"
+                                 action="ordemservicolista"
+                                 ajax="false" />
+                <p:commandButton value="Voltar"
+                                 immediate="true"
+                                 action="ordemservicolista"
+                                 ajax="false" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

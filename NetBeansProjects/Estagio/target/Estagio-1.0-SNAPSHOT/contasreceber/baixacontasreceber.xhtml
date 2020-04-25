@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h1 align="center">Movimento de Baixa de Contas a Receber</h1>        
+            <h:form>
+                <p:growl/>
+                <p:panel header="Conta a receber">
+                    <p:panelGrid columns="2">                
+                        Vencimento:<p:outputLabel value="#{contasReceberControle.cr.dataVencimento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+                        </p:outputLabel>
+                        Cliente:<p:outputLabel value="#{contasReceberControle.cr.cliente.nome}"/>
+                        Parcela:<p:outputLabel value="#{contasReceberControle.cr.numParcelas}"/>
+                        Descrição:<p:outputLabel value="#{contasReceberControle.cr.descricao}"/>
+                        Valor:<p:outputLabel value="#{contasReceberControle.cr.valor}"
+                                             converter="#{contasReceberControle.moneyConverter}"
+                                             onkeydown="mascaraMonetaria(this)"/>
+                    </p:panelGrid>                
+                </p:panel>
+                <p:panelGrid columns="2">
+                    Data da baixa:<p:calendar value="#{contasReceberControle.baixaContasReceber.dataBaixa}"
+                                           pattern="dd/MM/yyyy"
+                                           locale="pt_BR"
+                                           size="10"
+                                          />
+                    Valor:*<p:inputText value="#{contasReceberControle.baixaContasReceber.valor}" 
+                                       size="10"
+                                       converter="#{contasReceberControle.moneyConverter}"
+                                       onkeydown="mascaraMonetaria(this)"
+                                       required="true"
+                                       requiredMessage="O valor é obrigatório !"/>
+
+                    <p:commandButton value="Baixar" 
+                                     actionListener="#{contasReceberControle.baixar()}"
+                                     action="baixacontasreceber"
+                                     ajax="false" />
+                </p:panelGrid>
+                <p:dataTable value="#{contasReceberControle.cr.baixaContasReceber}"
+                             var="b">
+                    <p:column>
+                        <p:outputLabel value="#{b.dataBaixa}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{b.valor}" 
+                                       converter="#{contasReceberControle.moneyConverter}"/>
+                    </p:column> 
+                    <p:column>
+                        <p:commandButton icon="ui-icon-closethick" 
+                                         ajax="false" 
+                                         immediate="true" 
+                                         action="baixacontasreceber.xhtml"
+                                         actionListener="#{contasReceberControle.removerBaixa(b)}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Total baixado: "/><p:outputLabel value="#{contasReceberControle.cr.totalBaixado}"
+                                                                           style="color: #{contasReceberControle.corValor}"
+                                                                           converter="#{contasReceberControle.moneyConverter}"
+                                                                           onkeydown="mascaraMonetaria(this)"/>
+                    <p:commandButton value="Salvar" 
+                                     actionListener="#{contasReceberControle.salvar()}"
+                                     action="contasreceberlista"
+                                     ajax="false" />
+                    <p:commandButton value="Voltar"
+                                     immediate="true"
+                                     action="contasreceberlista"
+                                     ajax="false" />
+                </p:panelGrid>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            
+            <h1>Cadastro de Serviço</h1>
+            <br/>
+            <h:form>
+               
+                <p:growl />
+                <p:panelGrid columns="2">
+                    Nome:*<p:inputText value="#{servicoControle.se.nome}" 
+                                      size="34"
+                                      required="true" 
+                                      requiredMessage="O Nome é obrigatório!"
+                                      id="nome"/>
+                    Preço:*<p:inputText value="#{servicoControle.se.preco}" 
+                                      required="true"
+                                      requiredMessage="O preço é obrigatório!"
+                                      size="10"
+                                      id="preco"
+                                      onkeydown="mascaraMonetaria(this)" 
+                                      converter="#{servicoControle.moneyConverter}"/>
+                    Descrição:*<p:inputText value="#{servicoControle.se.descricao}"
+                                       size="40"
+                                       required="true" 
+                                       requiredMessage="A descrição é obrigatória!"
+                                       id="descricao"/>
+                </p:panelGrid>
+                <p:commandButton value="Salvar" actionListener="#{servicoControle.salvar()}"
+                                 action="servicolista"
+                                 ajax="false"/>
+                <p:commandButton value="Voltar"
+                                 action="servicolista"
+                                 immediate="true"
+                                 ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

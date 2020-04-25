@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h1 align="center">Movimentos de Compra</h1>        
+            <h:form>                
+                <p:dataTable value="#{compraControle.lista}" var="obj"
+                             paginator="true" rows="5" 
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="2,5,10,15"
+                             emptyMessage="Nenhuma compra encontrada!"
+                             >
+                    <p:column headerText="Código" filterBy="#{obj.id}" filterMatchMode="contains">
+                        <h:outputText value="#{obj.id}"/>
+                    </p:column>
+                    <p:column headerText="Data" filterBy="#{obj.dataCompra}" filterMatchMode="contains">
+                        <h:outputText value="#{obj.dataCompra}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Fornecedor" filterBy="#{obj.fornecedor.nome}" filterMatchMode="contains">
+                        <h:outputText value="#{obj.fornecedor.nome}"/>
+                    </p:column>
+                    <p:column headerText="Valor total" filterBy="#{obj.valorTotal}" filterMatchMode="contains">
+                        <h:outputText value="#{obj.valorTotal}" converter="#{compraControle.moneyConverter}"/>
+                    </p:column>
+                    <p:column headerText="Operações" width="90">
+                        <p:commandButton icon="ui-icon-closethick" 
+                                         ajax="false" 
+                                         immediate="true" 
+                                         action="compralista.xhtml"
+                                         actionListener="#{compraControle.excluir(obj)}"/>
+
+                        <p:commandButton icon="ui-icon-pencil" 
+                                         ajax="false"
+                                         immediate="true"
+                                         action="compraedita.xhtml"
+                                         actionListener="#{compraControle.editar(obj)}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Nova Compra" action="compraedita"
+                                 actionListener="#{compraControle.novo()}" ajax="false"/>
+                <p:commandButton value="Voltar" immediate="true" action="/index.xhtml" ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

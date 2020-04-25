@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            
+            <h1>Cadastro de Funcionário</h1>
+            <br/>
+            <h:form>
+                <p:growl />
+                <p:panelGrid columns="2">
+                    Nome:*<p:inputText value="#{funcionarioControle.fun.nome}" 
+                                      size="40"
+                                      required="true" 
+                                      requiredMessage="O Nome é obrigatório!"
+                                      id="nome"/>
+                
+                    CTPS:*<p:inputText value="#{funcionarioControle.fun.ctps}" 
+                                      size="20"
+                                      required="true" 
+                                      requiredMessage="O número da carteira de trabalho é obrigatório!"
+                                      id="ctps"/>
+                    
+                    Data de Admissão:*<p:calendar value="#{funcionarioControle.fun.dataAdmissao}" 
+                                              required="true"
+                                              requiredMessage="A data de admissão é obrigatória !"                                      
+                                              id="dataAdmissao"
+                                              pattern="dd/MM/yyyy" 
+                                              locale="pt_BR"
+                                              size="10"
+                                              />
+                      
+                    Salário:*<p:inputText value="#{funcionarioControle.fun.salario}" 
+                                      required="true"
+                                      requiredMessage="O Salário é obrigatório!"
+                                      size="12"
+                                      id="salario"
+                                      onkeydown="mascaraMonetaria(this)" 
+                                      converter="#{funcionarioControle.moneyConverter}"/>
+                    
+                    Função:*<p:autoComplete value="#{funcionarioControle.fun.funcao}"
+                                          completeMethod="#{funcionarioControle.getListaFuncaoFiltrando}"
+                                           var="fun"
+                                           required="true"
+                                           requiredMessage="A função é obrigatória !"
+                                           itemLabel="#{fun.nome}"
+                                           itemValue="#{fun}"
+                                           converter="#{funcionarioControle.funcaoConverter}"
+                                           forceSelection="true"
+                                           />
+                </p:panelGrid>
+                <p:commandButton value="Salvar" actionListener="#{funcionarioControle.salvar()}"
+                                 action="funcionariolista"
+                                 ajax="false"/>
+                <p:commandButton value="Voltar"
+                                 action="funcionariolista"
+                                 immediate="true"
+                                 ajax="false"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

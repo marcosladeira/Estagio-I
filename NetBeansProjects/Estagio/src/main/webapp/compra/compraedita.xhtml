@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h1 align="center">Movimento de Compra</h1>        
+            <h:form>
+                <p:growl/>
+                <p:panelGrid columns="2">                
+                    Data da compra:*<p:calendar value="#{compraControle.comp.dataCompra}" 
+                                              required="true"
+                                              requiredMessage="A data é obrigatório!"                                      
+                                              id="datacompra"
+                                              pattern="dd/MM/yyyy" 
+                                              locale="pt_BR"
+                                              size="10"
+                                              />
+                    Fornecedor:*<p:autoComplete value="#{compraControle.comp.fornecedor}"
+                                            completeMethod="#{compraControle.getListaFornecedorsFiltrando}"
+                                            var="fornecedor"
+                                            required="true"
+                                            requiredMessage="O fornecedor é obrigatório !"
+                                            itemLabel="#{fornecedor.nome}"
+                                            itemValue="#{fornecedor}"
+                                            converter="#{compraControle.fornecedorConverter}"
+                                            forceSelection="true"
+                                            size="40"
+                                            />
+                    <p:outputLabel value="Total:" style="color: tomato; font-size: larger"/>
+                    <p:outputLabel value="#{compraControle.comp.valorTotal}" 
+                                   style="color: tomato; font-size: larger"
+                                   converter="#{compraControle.moneyConverter}"
+                                   onkeydown="mascaraMonetaria(this)"/>
+                </p:panelGrid>                
+                <p:panel header="Itens da Compra">                    
+                    <p:panelGrid columns="2">
+                        Produto:<p:autoComplete value="#{compraControle.itensCompra.produto}"
+                                                completeMethod="#{compraControle.getListaProdutosFiltrando}"
+                                                var="prod"                          
+                                                itemLabel="#{prod.nome}"
+                                                itemValue="#{prod}"
+                                                converter="#{compraControle.produtoConverter}"
+                                                forceSelection="true"
+                                                size="34"                                            
+                                                >
+                            <p:ajax listener="#{compraControle.atualizaPrecoProduto()}" update="itempreco" event="itemSelect"/>
+                        </p:autoComplete>
+
+                        Preço:<p:outputLabel value="#{compraControle.itensCompra.preco}"
+                                           id="itempreco"
+                                           converter="#{compraControle.moneyConverter}"
+                                           onkeydown="mascaraMonetaria(this)"
+                                           />
+                        Quantidade:<p:inputText value="#{compraControle.itensCompra.quantidade}" 
+                                                id="quantidade"
+                                                size="7"
+                                                />
+                    </p:panelGrid>
+                    <p:commandButton value="Adicionar Produto" ajax="false"
+                                     actionListener="#{compraControle.addProduto()}"/>  
+
+                    <p:dataTable emptyMessage="Nenhum produto adicionado!"
+                                 value="#{compraControle.comp.itensCompra}"
+                                 var="it">
+                        <p:column headerText="Produto">
+                            <p:outputLabel value="#{it.produto.nome}"/>
+                        </p:column>
+                        <p:column headerText="Preço">
+                            <p:outputLabel value="#{it.preco}" converter="#{compraControle.moneyConverter}"/>
+                        </p:column>
+                        <p:column headerText="Quantidade">
+                            <p:outputLabel value="#{it.quantidade}"/>
+                        </p:column>
+                        <p:column headerText="SubTotal">
+                            <p:outputLabel value="#{it.subTotal}" converter="#{compraControle.moneyConverter}"/>
+                        </p:column>
+                        <p:column headerText="Operações" width="90">
+                        <p:commandButton icon="ui-icon-closethick" 
+                                         ajax="false" 
+                                         immediate="true" 
+                                         actionListener="#{compraControle.removeProd(it)}"/>
+                    </p:column>
+                    </p:dataTable>                    
+                </p:panel>
+
+                <p:panel header="Forma de Pagamento">
+                    <p:panelGrid columns="3">
+                        Número de parcelas:* <p:inputText value="#{compraControle.numeroParcelas}" size="5"
+                                                          required="true"
+                                                          requiredMessage="O número de parcelas é obrigatório !"/>
+                        <p:commandButton value="Gerar" actionListener="#{compraControle.gerarParcelas()}" ajax="false"/>                        
+                    </p:panelGrid>
+                    <p:dataTable value="#{compraControle.comp.contasPagar}"
+                                 var="cr">                        
+                        <p:column headerText="Parcela">
+                            <p:outputLabel value="#{cr.numParcelas}"/>
+                        </p:column>
+                        <p:column headerText="Vencimento">
+                            <p:outputLabel value="#{cr.dataVencimento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Valor">
+                            <p:outputLabel value="#{cr.valor}" converter="#{compraControle.moneyConverter}"
+                                   onkeydown="mascaraMonetaria(this)"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                
+                
+                <p:commandButton value="Salvar" 
+                                 actionListener="#{compraControle.salvar()}"
+                                 action="compralista"
+                                 ajax="false" />
+                <p:commandButton value="Voltar"
+                                 immediate="true"
+                                 action="compralista"
+                                 ajax="false" />
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

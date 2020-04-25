@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h1 align="center">Cadastro de Usuários</h1>        
+            <h:form>
+                <p:growl />
+                <p:panelGrid columns="2">                
+                    Nome:*<p:inputText value="#{usuarioControle.usuario.nome}" 
+                                      required="true"
+                                      requiredMessage="O nome é obrigatório!"
+                                      size="50"
+                                      id="nome"/>
+                    Login:*<p:inputText value="#{usuarioControle.usuario.login}" 
+                                       required="true"
+                                       requiredMessage="O Login é obrigatório!"
+                                       size="30"
+                                       id="login"/>
+                    Senha:*<p:password value="#{usuarioControle.usuario.senha}" 
+                                       required="true"
+                                       requiredMessage="A senha é obrigatória!"
+                                       size="20"
+                                       id="senha"/>
+                    Confirmar senha:*<p:password value="#{usuarioControle.usuario.confirmasenha}" 
+                                       required="true"
+                                       requiredMessage="A confirmação da senha é obrigatória!"
+                                       size="20"
+                                       id="confirma"/>
+                    Perfil:*<p:selectOneMenu value="#{usuarioControle.usuario.perfil}"
+                                            converter="#{usuarioControle.converterPerfil}">
+                        <f:selectItems value="#{usuarioControle.listaPerfis()}"
+                                       var="p"
+                                       itemLabel="#{p.nome}"
+                                       itemValue="#{p}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Salvar" 
+                                     actionListener="#{usuarioControle.salvar()}"
+                                     action="usuariolista"
+                                     ajax="false" />
+                    <p:commandButton value="Voltar" 
+                                     immediate="true"
+                                     action="usuariolista"
+                                     ajax="false" />
+                </p:panelGrid>                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

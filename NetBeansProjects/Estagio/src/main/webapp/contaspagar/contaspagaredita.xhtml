@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/index.xhtml">
+        <ui:define name="body">
+            <h1 align="center">Movimento de Contas a Pagar</h1>        
+            <h:form>
+                <p:growl/>
+                <p:panelGrid columns="2">                
+                    Vencimento:*<p:calendar value="#{contasPagarControle.cp.dataVencimento}"
+                                           pattern="dd/MM/yyyy"
+                                           locale="pt_BR"
+                                           required="true"
+                                           requiredMessage="A data de vencimento é obrigatória !"
+                                           size="10"
+                                           />
+                    Fornecedor:*<p:autoComplete value="#{contasPagarControle.cp.fornecedor}"
+                                           completeMethod="#{contasPagarControle.getListaFornecedorsFiltrando}"
+                                           var="fornecedor"
+                                           required="true"
+                                           requiredMessage="O fornecedor é obrigatório !"
+                                           itemLabel="#{fornecedor.nome}"
+                                           itemValue="#{fornecedor}"
+                                           converter="#{contasPagarControle.fornecedorConverter}"
+                                           forceSelection="true"
+                                           size="40"
+                                           />
+                    Parcela:*<p:inputText value="#{contasPagarControle.cp.numParcelas}" size="7"
+                                          required="true"
+                                          requiredMessage="O número de parcelas é obrigatório !"/>
+                    Valor:<p:inputText value="#{contasPagarControle.cp.valor}" size="10"
+                                       converter="#{contasPagarControle.moneyConverter}"
+                                       onkeydown="mascaraMonetaria(this)"
+                                       required="true"
+                                       requiredMessage="O valor é obrigatório !"
+                                       />
+                    <p:commandButton value="Salvar" 
+                                     actionListener="#{contasPagarControle.salvar()}"
+                                     action="contaspagarlista"
+                                     ajax="false" />
+                    
+                    <p:commandButton value="Voltar"
+                                     immediate="true"
+                                     action="contaspagarlista"
+                                     ajax="false" />
+                </p:panelGrid>                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
